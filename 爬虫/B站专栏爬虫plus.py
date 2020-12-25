@@ -9,5 +9,5 @@ if len(htmlurls) == 0:
     print('没有相关专题')
 else:
     for htmlurl in htmlurls:
-        爬虫.download('https:' + htmlurl, tag)
+        爬虫.biliArticleImgDownload('https:' + htmlurl, tag)
     print('任务完成')

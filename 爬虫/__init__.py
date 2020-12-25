@@ -16,7 +16,7 @@ headers = {
 }
 
 
-def download(url, path):
+def biliArticleImgDownload(url, path):
     if not os.path.exists(path):
         os.mkdir(path)
     try:
