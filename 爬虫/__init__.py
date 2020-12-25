@@ -26,12 +26,14 @@ def biliArticleImgDownload(url, path):
         title = re.findall('<h1 class="title">(.*?)</h1>\n', data)
         title = title[0]
         imgurls = re.findall(
-            '<figure class="img-box" contenteditable="false"><img data-src="(.*?)" width=".*?" height=".*?" data-size=".*?"/>',
+            '<img data-src="(.*?)" width=".*?" height=".*?" data-size=".*?"/>',
+            data)
+        imgurls2 = re.findall(
+            '<img width=".*?" height=".*?" data-src=".*?" data-size=".*?" data-index=".*?" src="(.*?)" style="width: .*?; height: .*?;" class="loaded">',
             data)
         title = path + '//' + title
         if not os.path.exists(title):
             os.mkdir(title)
-        print(imgurls)
         for imgurl in imgurls:
             imgurl = 'https:' + imgurl
             picrequest = getRequest(imgurl)
@@ -39,6 +41,15 @@ def biliArticleImgDownload(url, path):
                 acti.write(picrequest.content)
             acti.close()
             print(imgurl + '下载成功')
-        print('**** 任务' + url + '完成 ****')
+        for imgurl in imgurls2:
+            imgurl = 'https:' + imgurl
+            picrequest = getRequest(imgurl)
+            with open(title + '//' + imgurl[-20:], 'wb+') as acti:
+                acti.write(picrequest.content)
+            acti.close()
+            print(imgurl + '下载成功')
+        if len(imgurls) == len(imgurls2) == 0:
+            print('该网页未检测到已添加匹配规则')
+        print('○( ＾皿＾)っHiahiahia…  网页' + url + '爬取结束 ****')
     except BaseException:
         print('错误,请重试')
