@@ -41,36 +41,24 @@ def biliArticleImgDownload(url, path):
         request = B站专栏爬虫.getRequest(url)
         request.encoding = "utf-8"
         data = request.content.decode('utf-8')
-        title = re.findall('<h1 class="title">(.*?)</h1>', data)
-        title = title[0]
+        title = re.findall('https://www.bilibili.com/read/(.*?)\?from=search', url)
         imgurls = re.findall(
-            '<img data-src="(.*?)" width=".*?" height=".*?" data-size=".*?"/>',
+            '<.*?img data-src="(.*?)".*?>',
             data)
-        imgurls2 = re.findall(
-            '<img width=".*?" height=".*?" data-src=".*?" data-size=".*?" data-index=".*?" src="(.*?)" style="width: .*?; height: .*?;" class="loaded">',
-            data)
-        title = path + '//' + title
+        title = path + '//' + title[0]
         if not os.path.exists(title):
             os.mkdir(title)
         for imgurl in imgurls:
             if i == 1:
                 break
-            imgurl = 'https:' + imgurl
+            if 'https' not in imgurl:
+                imgurl = 'https:' + imgurl
             picrequest = B站专栏爬虫.getRequest(imgurl)
             with open(title + '//' + imgurl[-20:], 'wb+') as acti:
                 acti.write(picrequest.content)
             acti.close()
             log(imgurl + '下载成功')
-        for imgurl in imgurls2:
-            if i == 1:
-                break
-            imgurl = 'https:' + imgurl
-            picrequest = B站专栏爬虫.getRequest(imgurl)
-            with open(title + '//' + imgurl[-20:], 'wb+') as acti:
-                acti.write(picrequest.content)
-            acti.close()
-            log(imgurl + '下载成功')
-        if len(imgurls) == len(imgurls2) == 0:
+        if len(imgurls)  == 0:
             log('该网页未检测到已添加匹配规则')
         log('○( ＾皿＾)っHiahiahia…  网页' + url + '爬取结束 ****')
     except BaseException:
