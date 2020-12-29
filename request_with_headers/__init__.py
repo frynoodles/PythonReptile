@@ -1,0 +1,12 @@
+import requests
+
+headers = {
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+}
+
+
+def getRequest(url):
+    request = requests.get(url=url, headers=headers)
+    return request
+
+
