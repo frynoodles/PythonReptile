@@ -24,8 +24,9 @@ def biliArticleImgDownload(url, path):
     request.encoding = "utf-8"
     data = request.content.decode('utf-8')
     imgurls = re.findall(
-        '<.*?img data-src="(.*?)".*?>',
+        '<figure .*?class="img-box".*?><.*?img data-src="(.*?)".*?>',
         data)
+    print(imgurls)
     title = re.findall('https://www.bilibili.com/read/(.*?)\?from=search', url)
     title = path + '//' + title[0]
     if not os.path.exists(title):
