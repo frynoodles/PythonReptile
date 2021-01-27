@@ -1,8 +1,8 @@
 # @coding:UTF-8 
 # @program: PythonReptile
-# @description: 
-# @author: さんみずミャオ
-# @created: 2021-01-27 14:28
+# @author: frynoodles
+# @created: 2021-01-27 18:52
+
 import turtle
 
 
